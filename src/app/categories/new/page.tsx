@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
 import { db } from "@/db/drizzle";
 import { categories } from "@/db/schema";
 import { auth } from "@clerk/nextjs/server";

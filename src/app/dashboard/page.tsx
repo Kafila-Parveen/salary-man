@@ -2,14 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
 import { BarChart2, PieChart, TrendingUp, TrendingDown, Wallet } from "lucide-react";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { db } from "@/db/drizzle";
 import { transactions, users, categories, accounts, creditCards } from "@/db/schema";
 import { and, eq, gte, lte, inArray, desc, asc } from "drizzle-orm";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import CreditCardSelector from "@/components/CreditCardSelector";
 import { getOrCreateUserId } from "@/lib/auth";
 
@@ -290,12 +288,12 @@ export default async function DashboardPage({ searchParams: rawSearchParams }: {
           lte(transactions.date as any, curMonthEnd as any)
         )
       )
-      .orderBy(desc(transactions.id as any));
+      .orderBy(desc(transactions.date as any), desc(transactions.id as any));
   } else {
     // default: last 5 newest
     recentQuery = base
       .where(userFilter)
-      .orderBy(desc(transactions.id as any))
+      .orderBy(desc(transactions.date as any), desc(transactions.id as any))
       .limit(5);
   }
   const recent = await recentQuery;
@@ -517,7 +515,11 @@ export default async function DashboardPage({ searchParams: rawSearchParams }: {
                   <div key={r.id} className="flex items-center justify-between py-2">
                     <div className="min-w-0">
                       <div className="font-medium truncate">{r.description || r.categoryName || "Transaction"}</div>
-                      <div className="text-xs text-muted-foreground">{new Date(r.date as string).toLocaleDateString()}</div>
+                      <div className="text-xs text-muted-foreground">{new Date(r.date as string).toLocaleDateString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}</div>
                     </div>
                     <div className="ml-4 text-right">
                       <div className={r.type === "income" ? "text-green-600" : "text-red-600"}>

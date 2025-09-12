@@ -55,7 +55,7 @@ export default async function EditCategoryPage({ params }: { params: Promise<{ i
           { label: "Categories", href: "/categories" },
           { label: "Edit Category" },
         ]}
-        className="mb-2 max-w-xl "
+        className="mb-2 max-w-xl"
       />
       <div className="max-w-xl mx-auto">
         <div className="mb-4 flex items-center justify-between">

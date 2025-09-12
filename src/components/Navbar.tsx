@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, type ComponentType } from "react";
 import { useUser, SignedIn, SignedOut, SignInButton, SignOutButton } from "@clerk/nextjs";
@@ -26,8 +27,13 @@ function LeftSection() {
   return (
     <div className="flex items-center gap-3">
       <Link href="/dashboard" className="flex items-center gap-2">
-        <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-black text-white font-bold">S</span>
-        <span className="text-base font-semibold tracking-tight">Salaryman</span>
+      <Image
+          src="/salarymanlogo.svg" 
+          alt="Salaryman Logo"
+          width={32}
+          height={32}
+          className="rounded-md"
+        />        <span className="text-base font-semibold tracking-tight">Salaryman</span>
       </Link>
     </div>
   );
@@ -39,6 +45,7 @@ function RightSection() {
     <div className="flex items-center gap-6">
       <HomeLink />
       <ManageDropdown />
+      <ReportsLink />
 
       <SignedIn>
         <ProfileDropdown avatarUrl={user?.imageUrl} />
@@ -50,6 +57,22 @@ function RightSection() {
         </SignInButton>
       </SignedOut>
     </div>
+  );
+}
+
+function ReportsLink() {
+  const pathname = usePathname();
+  const active = pathname.startsWith("/reports");
+  return (
+    <Link
+      href="/reports"
+      className={`flex items-center gap-1 rounded-md px-2 py-1.5 text-sm font-medium ${
+        active ? "bg-gray-900 text-white" : "text-gray-800 hover:bg-gray-100"
+      }`}
+    >
+      <span className="hidden sm:inline font-semibold">Reports</span>
+      <Banknote className="h-4 w-4 sm:hidden" />
+    </Link>
   );
 }
 
@@ -165,4 +188,5 @@ function ProfileDropdown({ avatarUrl }: { avatarUrl?: string }) {
       )}
     </div>
   );
+  
 }

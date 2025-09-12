@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 import { getOrCreateUserId } from "@/lib/auth";
 import RecurringFormClient from "@/components/RecurringFormClient";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { computeNextRunDate } from "@/lib/recurring"; // <-- make sure path is correct
+import { computeNextRunDate } from "@/lib/recurring";
 
 export default async function NewRecurringPage() {
   const { userId } = await auth();
